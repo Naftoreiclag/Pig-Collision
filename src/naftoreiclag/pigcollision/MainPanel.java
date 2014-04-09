@@ -48,18 +48,37 @@ public class MainPanel extends JPanel
 		this.repaint();
 	}
 	
-	public Vector2d closestPoint(Vector2d a, Vector2d b, Vector2d p)
+	// I had to use uppercase letters here to avoid (more) confusion
+	public Vector2d closestPoint(Vector2d A, Vector2d B, Vector2d C)
 	{
-		Vector2d ap = p.subtract(a);
-		Vector2d ab = b.subtract(a);
+		// What
+		Vector2d AC = C.subtract(A);
+		Vector2d AB = B.subtract(A);
 		
-		double ab_distsq = (ab.a * ab.a) + (ab.b * ab.b);
+		// I don't even
+		double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
 		
-		double ap_dot_ab = (ap.a * ab.a) + (ap.b * ab.b);
+		// What is a dot product
+		double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
 		
-		double t = ap_dot_ab / ab_distsq;
+		// What is this
+		double magic = AC_dot_AB / AB_distsq;
 		
-		return new Vector2d(a.a + (ab.a * t), a.b + (ab.b * t));
+		// Get the closest point on an INFINITE line
+		Vector2d returnVal = new Vector2d(A.a + (AB.a * magic), A.b + (AB.b * magic));
+		
+		// Clamp the values to be within the points
+		if(returnVal.a < (A.a < B.a ? A.a : B.a))
+		{
+			return A;
+		}
+		if(returnVal.a > (A.a > B.a ? A.a : B.a))
+		{
+			return B;
+		}
+		
+		// Return this beast
+		return new Vector2d(A.a + (AB.a * magic), A.b + (AB.b * magic));
 	}
 	
 	@Override
