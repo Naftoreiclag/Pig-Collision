@@ -20,6 +20,8 @@ public class PCSpace
 			for(PCLine l : lines)
 			{
 				float ac = (float) Math.sqrt(Math.pow(c.loc.x - l.loc.x, 2) + Math.pow(c.loc.y - l.loc.y, 2));
+				
+				if()
 			}
 		}
 	}
