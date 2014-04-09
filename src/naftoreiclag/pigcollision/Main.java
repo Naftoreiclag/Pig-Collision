@@ -12,7 +12,8 @@ public class Main extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(300, 200);
 		this.setLocationRelativeTo(null);
-		
+
+		System.out.println("lofewjgfioew");
 		MainPanel m = new MainPanel();
 		
 		this.add(m);

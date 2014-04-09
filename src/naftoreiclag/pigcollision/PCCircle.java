@@ -7,7 +7,7 @@ public class PCCircle
 	
 	public Vector2DF velocity;
 	
-	public PCCircle(float radius, Vector2DF location)
+	public PCCircle(Vector2DF location, float radius)
 	{
 		this.rad = radius;
 		this.loc = location;
