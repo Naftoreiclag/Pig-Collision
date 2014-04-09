@@ -89,6 +89,21 @@ public class Vector2d
 		return this;
 	}
 	
+	public double distanceSquared(Vector2d other)
+	{
+		return ((this.a - other.a) * (this.a - other.a)) + ((this.b - other.b) * (this.a - other.b));
+	}
+	
+	public double magnitudeSquared()
+	{
+		return (this.a * this.a) + (this.b * this.b);
+	}
+	
+	public double dotProduct(Vector2d other)
+	{
+		return (this.a * other.a) + (this.b * other.b);
+	}
+	
 	public Vector2d negative()
 	{
 		return this.clone().negativeLocal();

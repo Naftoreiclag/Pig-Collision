@@ -45,6 +45,8 @@ public class MainPanel extends JPanel
 		
 		point = closestPoint(lineA, lineB, circlePos);
 		
+		System.out.println(pntDistanceSq(lineA, lineB, circlePos));
+		
 		this.repaint();
 	}
 	
@@ -56,16 +58,16 @@ public class MainPanel extends JPanel
 		Vector2d AB = B.subtract(A);
 		
 		// I don't even
-		double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
+		double AB_distsq = AB.magnitudeSquared();
 		
 		// What is a dot product
-		double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
+		double AC_dot_AB = AC.dotProduct(AB);
 		
 		// What is this
 		double magic = AC_dot_AB / AB_distsq;
 		
 		// Get the closest point on an INFINITE line
-		Vector2d returnVal = A.add(AB.multiplyLocal(magic));// new Vector2d(A.a + (AB.a * magic), A.b + (AB.b * magic));
+		Vector2d returnVal = A.add(AB.multiplyLocal(magic));
 		
 		// Clamp the values to be within the points
 		if(returnVal.a < (A.a < B.a ? A.a : B.a))
@@ -81,7 +83,7 @@ public class MainPanel extends JPanel
 		return returnVal;
 	}
 	
-	/*
+	
 	// I had to use uppercase letters here to avoid (more) confusion
 	public double pntDistanceSq(Vector2d A, Vector2d B, Vector2d C)
 	{
@@ -90,7 +92,7 @@ public class MainPanel extends JPanel
 		Vector2d AB = B.subtract(A);
 		
 		// I don't even
-		double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
+		double AB_distsq = AB.magnitudeSquared();
 		
 		// What is a dot product
 		double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
@@ -99,22 +101,11 @@ public class MainPanel extends JPanel
 		double magic = AC_dot_AB / AB_distsq;
 		
 		// Get the closest point on an INFINITE line
-		Vector2d returnVal = new Vector2d(A.a + (AB.a * magic), A.b + (AB.b * magic));
+		Vector2d returnVal = A.add(AB.multiplyLocal(magic));
 		
-		// Clamp the values to be within the points
-		if(returnVal.a < (A.a < B.a ? A.a : B.a))
-		{
-			return A;
-		}
-		if(returnVal.a > (A.a > B.a ? A.a : B.a))
-		{
-			return B;
-		}
-		
-		// Return this beast
-		return new Vector2d(A.a + (AB.a * magic), A.b + (AB.b * magic));
+		return returnVal.distanceSquared(C);
 	}
-	*/
+	
 	
 	@Override
 	public void paint(Graphics g)
