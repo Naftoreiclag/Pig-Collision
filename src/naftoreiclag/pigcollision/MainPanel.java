@@ -45,7 +45,7 @@ public class MainPanel extends JPanel
 		
 		point = closestPoint(lineA, lineB, circlePos);
 		
-		System.out.println(pntDistanceSq(lineA, lineB, circlePos));
+		System.out.println(collides(lineA, lineB, circlePos, circleRadius));
 		
 		this.repaint();
 	}
@@ -58,10 +58,10 @@ public class MainPanel extends JPanel
 		Vector2d AB = B.subtract(A);
 		
 		// I don't even
-		double AB_distsq = AB.magnitudeSquared();
+		double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);;
 		
 		// What is a dot product
-		double AC_dot_AB = AC.dotProduct(AB);
+		double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
 		
 		// What is this
 		double magic = AC_dot_AB / AB_distsq;
@@ -104,6 +104,52 @@ public class MainPanel extends JPanel
 		Vector2d returnVal = A.add(AB.multiplyLocal(magic));
 		
 		return returnVal.distanceSquared(C);
+	}
+	
+	// I had to use uppercase letters here to avoid (more) confusion
+	public boolean collides(Vector2d A, Vector2d B, Vector2d C, double rad)
+	{
+		// If the x values are the same, then the line is vertical
+		if(A.a == B.a)
+		{
+			// Just check the differences in x
+			return Math.abs(A.a - C.a) <= rad;
+		}
+		
+		// If the y values are the same, then the line is horizontal
+		if(A.b == B.b)
+		{
+			// Just check the differences in y
+			return Math.abs(A.b - C.b) <= rad;
+		}
+		
+		// Line is "non-axial" (i.e. not 0, 90, 180, or 270)
+		
+		// What
+		Vector2d AC = C.subtract(A);
+		Vector2d AB = B.subtract(A);
+
+		// I don't even
+		double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
+		
+		// What is a dot product
+		double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
+		
+		// What is this
+		double magic = AC_dot_AB / AB_distsq;
+
+		if(magic > 1) return false;
+		else if(magic < 0)
+		{
+			double AC_distsq = AC.magnitudeSquared();
+			
+			return AC_distsq <= (rad * rad);
+		}
+		
+		// Get the closest point on an INFINITE line
+		Vector2d returnVal = A.add(AB.multiply(magic));
+		
+		return returnVal.distanceSquared(C) <= (rad * rad);
 	}
 	
 	
