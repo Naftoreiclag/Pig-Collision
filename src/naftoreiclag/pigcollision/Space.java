@@ -14,10 +14,6 @@ public class Space
 		{
 			circle.loc.addLocal(circle.velocity);
 			
-			boolean collides = false;
-			
-			Vector2d penetration;
-			
 			for(Line line : lines)
 			{
 				// What
@@ -46,12 +42,7 @@ public class Space
 					
 					if(AC_distsq <= circle.radsq)
 					{
-						collides = true;
-						
-						//double angleFromCtoA = 
-						
 						circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad)).subtractLocal(AC);
-						
 						
 						break;
 					}
@@ -60,9 +51,14 @@ public class Space
 				// Within the line
 				else
 				{
-					if(line.a.add(AB.multiply(magic)).distanceSquared(circle.loc) <= circle.radsq)
+					Vector2d D = line.a.add(AB.multiply(magic));
+					Vector2d DC = circle.loc.subtract(D);
+					double DC_distsq = DC.magnitudeSquared();
+					
+					if(DC_distsq <= circle.radsq)
 					{
-						collides = true;
+						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad)).subtractLocal(DC);
+						
 						break;
 					}
 				}
