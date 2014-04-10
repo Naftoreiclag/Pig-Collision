@@ -96,6 +96,7 @@ public class Space
 	// I had to use uppercase letters here to avoid (more) confusion
 	public boolean collides(Vector2d A, Vector2d B, Vector2d C, double rad)
 	{
+		/*
 		// If the x values are the same, then the line is vertical
 		if(A.a == B.a)
 		{
@@ -109,6 +110,7 @@ public class Space
 			// Just check the differences in y
 			return Math.abs(A.b - C.b) <= rad;
 		}
+		*/
 		
 		// Line is "non-axial" (i.e. not 0, 90, 180, or 270)
 		

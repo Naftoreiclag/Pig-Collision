@@ -39,8 +39,10 @@ public class MainPanel extends JPanel
 	}
 	private void mMove(MouseEvent e)
 	{
-		mainCircle.loc.a = e.getX();
-		mainCircle.loc.b = e.getY();
+		mainCircle.velocity.a = e.getX() - mainCircle.loc.a;
+		mainCircle.velocity.b = e.getY() - mainCircle.loc.b;
+		
+		space.simulate();
 		
 		this.repaint();
 	}
