@@ -11,6 +11,11 @@ public class Vector2d
 		this.b = b;
 	}
 	
+	public Vector2d()
+	{
+		this(0.0d, 0.0d);
+	}
+	
 	public Vector2d clone()
 	{
 		return new Vector2d(this.a, this.b);
