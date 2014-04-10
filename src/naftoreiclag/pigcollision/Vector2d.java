@@ -91,7 +91,7 @@ public class Vector2d
 	
 	public double distanceSquared(Vector2d other)
 	{
-		return ((this.a - other.a) * (this.a - other.a)) + ((this.b - other.b) * (this.a - other.b));
+		return ((this.a - other.a) * (this.a - other.a)) + ((this.b - other.b) * (this.b - other.b));
 	}
 	
 	public double magnitudeSquared()
