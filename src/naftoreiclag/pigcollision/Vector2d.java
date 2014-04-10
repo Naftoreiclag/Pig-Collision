@@ -86,6 +86,19 @@ public class Vector2d
 		return this.clone().multiplyLocal(a);
 	}
 	
+	public Vector2d divideLocal(double a)
+	{
+		this.a /= a;
+		this.b /= a;
+		
+		return this;
+	}
+	
+	public Vector2d divide(double a)
+	{
+		return this.clone().divideLocal(a);
+	}
+	
 	public Vector2d negativeLocal()
 	{
 		this.a = -this.a;

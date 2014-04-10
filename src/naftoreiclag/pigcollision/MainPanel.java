@@ -14,6 +14,9 @@ public class MainPanel extends JPanel
 	Space space;
 	Circle mainCircle;
 	
+	int mx;
+	int my;
+	
 	public MainPanel()
 	{
 		this.setSize(500, 500);
@@ -39,6 +42,9 @@ public class MainPanel extends JPanel
 	}
 	private void mMove(MouseEvent e)
 	{
+		mx = e.getX();
+		my = e.getY();
+		
 		mainCircle.velocity.a = e.getX() - mainCircle.loc.a;
 		mainCircle.velocity.b = e.getY() - mainCircle.loc.b;
 		
@@ -55,6 +61,10 @@ public class MainPanel extends JPanel
 		g2.setColor(Color.WHITE);
 
 		g2.fillRect(0, 0, 500, 500);
+		
+		g2.setColor(Color.RED);
+		
+		g2.drawOval((int) (mx - mainCircle.rad), (int) (my - mainCircle.rad), (int) mainCircle.rad * 2, (int) mainCircle.rad * 2);
 
 		g2.setColor(Color.BLACK);
 		

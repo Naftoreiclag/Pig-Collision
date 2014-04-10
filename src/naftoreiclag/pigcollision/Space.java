@@ -20,10 +20,6 @@ public class Space
 			
 			for(Line line : lines)
 			{
-				////////////////////////
-				
-				
-				
 				// What
 				Vector2d AC = circle.loc.subtract(line.a);
 				Vector2d AB = line.b.subtract(line.a);
@@ -51,6 +47,12 @@ public class Space
 					if(AC_distsq <= circle.radsq)
 					{
 						collides = true;
+						
+						//double angleFromCtoA = 
+						
+						circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad)).subtractLocal(AC);
+						
+						
 						break;
 					}
 				}
@@ -66,12 +68,16 @@ public class Space
 				}
 			}
 			
+			/*
 			if(collides)
 			{
 				circle.loc.subtractLocal(circle.velocity);
 				
 				
 			}
+			*/
+			
+			circle.velocity.multiply(0.0d);
 		}
 	}
 	
