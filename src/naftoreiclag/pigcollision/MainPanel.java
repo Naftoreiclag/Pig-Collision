@@ -20,6 +20,8 @@ public class MainPanel extends JPanel
 	
 	public Vector2d point = new Vector2d(0, 0);
 	
+	public boolean collision;
+	
 	public double mx;
 	public double my;
 	
@@ -45,7 +47,7 @@ public class MainPanel extends JPanel
 		
 		point = closestPoint(lineA, lineB, circlePos);
 		
-		System.out.println(collides(lineA, lineB, circlePos, circleRadius));
+		collision = collides(lineA, lineB, circlePos, circleRadius);
 		
 		this.repaint();
 	}
@@ -78,6 +80,11 @@ public class MainPanel extends JPanel
 		{
 			return B;
 		}
+		
+		System.out.println("Closest:\t" + (int) (returnVal.a) + ", " + (int) (returnVal.b));
+		System.out.println("Circle: \t" + (int) (C.a) + ", " + (int) (C.b));
+		System.out.println("Distsq \t" + (int) (returnVal.distanceSquared(C)));
+		System.out.println("Distance \t" + (int) (Math.sqrt(returnVal.distanceSquared(C))));
 		
 		// Return this beast
 		return returnVal;
@@ -149,6 +156,7 @@ public class MainPanel extends JPanel
 		// Get the closest point on an INFINITE line
 		Vector2d returnVal = A.add(AB.multiply(magic));
 		
+		
 		return returnVal.distanceSquared(C) <= (rad * rad);
 	}
 	
@@ -165,9 +173,11 @@ public class MainPanel extends JPanel
 		g2.setColor(Color.BLACK);
 		
 		g2.drawLine((int) lineA.a, (int) lineA.b, (int) lineB.a, (int) lineB.b);
-		
-		g2.drawOval((int) (circlePos.a - circleRadius), (int) (circlePos.b - circleRadius), (int) circleRadius * 2, (int) circleRadius * 2);
 	
 		g2.drawOval((int) point.a - 4, (int) point.b - 4, 8, 8);
+		
+		if(collision) g2.setColor(Color.RED);
+
+		g2.drawOval((int) (circlePos.a - circleRadius), (int) (circlePos.b - circleRadius), (int) circleRadius * 2, (int) circleRadius * 2);
 	}
 }
