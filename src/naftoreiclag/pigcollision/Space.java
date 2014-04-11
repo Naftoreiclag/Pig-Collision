@@ -14,62 +14,62 @@ public class Space
 		{
 			circle.loc.addLocal(circle.velocity);
 			
-			boolean restart = true;
+			boolean recheck = true;
 			
-			while(restart)
+			while(recheck)
 			{
-			restart = false;
-			for(Line line : lines)
-			{
-				// What
-				Vector2d AC = circle.loc.subtract(line.a);
-				Vector2d AB = line.b.subtract(line.a);
-
-				// I don't even
-				double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
-				
-				// What is a dot product
-				double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
-				
-				// What is this
-				double magic = AC_dot_AB / AB_distsq;
-
-				// Past B
-				if(magic > 1)
+				recheck = false;
+				for(Line line : lines)
 				{
-					continue;
-				}
-				
-				// Past A
-				else if(magic < 0)
-				{
-					double AC_distsq = AC.magnitudeSquared();
+					// What
+					Vector2d AC = circle.loc.subtract(line.a);
+					Vector2d AB = line.b.subtract(line.a);
+	
+					// I don't even
+					double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
 					
-					if(AC_distsq <= circle.radsq)
+					// What is a dot product
+					double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
+					
+					// What is this
+					double magic = AC_dot_AB / AB_distsq;
+	
+					// Past B
+					if(magic > 1)
 					{
-						circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(AC);
+						continue;
+					}
+					
+					// Past A
+					else if(magic < 0)
+					{
+						double AC_distsq = AC.magnitudeSquared();
 						
-						restart = true;
-						break;
+						if(AC_distsq <= circle.radsq)
+						{
+							circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(AC);
+							
+							recheck = true;
+							break;
+						}
 					}
-				}
-				
-				// Within the line
-				else
-				{
-					Vector2d D = line.a.add(AB.multiply(magic));
-					Vector2d DC = circle.loc.subtract(D);
-					double DC_distsq = DC.magnitudeSquared();
 					
-					if(DC_distsq <= circle.radsq)
+					// Within the line
+					else
 					{
-						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(DC);
-
-						restart = true;
-						break;
+						Vector2d D = line.a.add(AB.multiply(magic));
+						Vector2d DC = circle.loc.subtract(D);
+						double DC_distsq = DC.magnitudeSquared();
+						
+						if(DC_distsq <= circle.radsq)
+						{
+							circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(DC);
+	
+							recheck = true;
+							break;
+						}
 					}
 				}
-			}
 			}
 			
 			circle.velocity.multiply(0.0d);
