@@ -16,8 +16,11 @@ public class Space
 			
 			boolean recheck = true;
 			
+			int numChex = 0;
+			
 			while(recheck)
 			{
+				numChex ++;
 				recheck = false;
 				for(Line line : lines)
 				{
@@ -71,6 +74,8 @@ public class Space
 					}
 				}
 			}
+			
+			System.out.println(numChex);
 			
 			circle.velocity.multiply(0.0d);
 		}
