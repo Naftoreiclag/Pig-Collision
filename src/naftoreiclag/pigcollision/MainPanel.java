@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
@@ -15,6 +16,9 @@ public class MainPanel extends JPanel
 {
 	Space space;
 	Circle mainCircle;
+
+	double cirleSpd = 3;
+	boolean mouseDown;
 	
 	public MainPanel()
 	{
@@ -86,30 +90,68 @@ public class MainPanel extends JPanel
 			@Override
 			public void keyTyped(KeyEvent e) { }
 		});
+		
+		this.addMouseListener(new MouseListener()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e) { }
+			@Override
+			public void mouseEntered(MouseEvent e) { }
+			@Override
+			public void mouseExited(MouseEvent e) { }
+			@Override
+			public void mousePressed(MouseEvent e) { mPress(e); }
+			@Override
+			public void mouseReleased(MouseEvent e) { mRelease(e); }
+		});
 	}
 	private void mMove(MouseEvent e)
 	{
+		if(mouseDown)
+		{
+			Vector2d go = new Vector2d(e.getX(), e.getY());
+			go.subtractLocal(mainCircle.loc);
+			
+			mainCircle.velocity = go.normalizeLocal().multiplyLocal(cirleSpd);
+		}
+	}
+	private void mPress(MouseEvent e)
+	{
+		mouseDown = true;
+		
+		Vector2d go = new Vector2d(e.getX(), e.getY());
+		go.subtractLocal(mainCircle.loc);
+		
+		mainCircle.velocity = go.normalizeLocal().multiplyLocal(cirleSpd);
+	
+		this.repaint();
+	}
+	private void mRelease(MouseEvent e)
+	{
+		mouseDown = false;
+		
+		mainCircle.velocity.a = 0.0d;
+		mainCircle.velocity.b = 0.0d;
 	}
 	private void kPress(KeyEvent e)
 	{
-		double speed = 3;
 		int key = e.getKeyCode();
 		
 		if(key == 37)
 		{
-			mainCircle.velocity.a = -speed;
+			mainCircle.velocity.a = -cirleSpd;
 		}
 		else if(key == 39)
 		{
-			mainCircle.velocity.a = speed;
+			mainCircle.velocity.a = cirleSpd;
 		}
 		else if(key == 38)
 		{
-			mainCircle.velocity.b = -speed;
+			mainCircle.velocity.b = -cirleSpd;
 		}
 		else if(key == 40)
 		{
-			mainCircle.velocity.b = speed;
+			mainCircle.velocity.b = cirleSpd;
 		}
 	}
 	private void kRelease(KeyEvent e)

@@ -107,6 +107,11 @@ public class Vector2d
 		return this;
 	}
 	
+	public Vector2d negative()
+	{
+		return this.clone().negativeLocal();
+	}
+	
 	public double distanceSquared(Vector2d other)
 	{
 		return ((this.a - other.a) * (this.a - other.a)) + ((this.b - other.b) * (this.b - other.b));
@@ -121,9 +126,14 @@ public class Vector2d
 	{
 		return (this.a * other.a) + (this.b * other.b);
 	}
-	
-	public Vector2d negative()
+
+	public Vector2d normalizeLocal()
 	{
-		return this.clone().negativeLocal();
+		return this.divideLocal(Math.sqrt(this.magnitudeSquared()));
+	}
+
+	public Vector2d normalize()
+	{
+		return this.clone().normalizeLocal();
 	}
 }
