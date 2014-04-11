@@ -92,7 +92,7 @@ public class MainPanel extends JPanel
 	}
 	private void kPress(KeyEvent e)
 	{
-		double speed = 5;
+		double speed = 3;
 		int key = e.getKeyCode();
 		
 		if(key == 37)
