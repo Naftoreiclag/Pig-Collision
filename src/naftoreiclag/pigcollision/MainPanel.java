@@ -45,7 +45,7 @@ public class MainPanel extends JPanel
 			{
 				while(true)
 				{
-					if(System.currentTimeMillis() > lastTick + 50d)
+					if(System.currentTimeMillis() > lastTick + 10d)
 					{
 						lastTick = System.currentTimeMillis();
 				        space.simulate();

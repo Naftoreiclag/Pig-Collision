@@ -14,6 +14,11 @@ public class Space
 		{
 			circle.loc.addLocal(circle.velocity);
 			
+			boolean restart = true;
+			
+			while(restart)
+			{
+			restart = false;
 			for(Line line : lines)
 			{
 				// What
@@ -42,8 +47,9 @@ public class Space
 					
 					if(AC_distsq <= circle.radsq)
 					{
-						circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad)).subtractLocal(AC);
+						circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(AC);
 						
+						restart = true;
 						break;
 					}
 				}
@@ -57,21 +63,14 @@ public class Space
 					
 					if(DC_distsq <= circle.radsq)
 					{
-						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad)).subtractLocal(DC);
-						
+						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(DC);
+
+						restart = true;
 						break;
 					}
 				}
 			}
-			
-			/*
-			if(collides)
-			{
-				circle.loc.subtractLocal(circle.velocity);
-				
-				
 			}
-			*/
 			
 			circle.velocity.multiply(0.0d);
 		}
