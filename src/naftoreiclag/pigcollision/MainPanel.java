@@ -3,6 +3,8 @@ package naftoreiclag.pigcollision;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
@@ -21,6 +23,9 @@ public class MainPanel extends JPanel
 	{
 		this.setSize(500, 500);
 		
+		this.setFocusable(true);
+		this.requestFocusInWindow();
+		
 		space = new Space();
 		
 		mainCircle = new Circle(250, 250, 20);
@@ -31,6 +36,26 @@ public class MainPanel extends JPanel
 		space.lines.add(new Line(200, 200, 50, 200));
 		space.lines.add(new Line(50, 200, 50, 50));
 		
+		(new Thread()
+		{
+			double lastTick = System.currentTimeMillis();
+			
+			@Override
+			public void run()
+			{
+				while(true)
+				{
+					if(System.currentTimeMillis() > lastTick + 50d)
+					{
+						lastTick = System.currentTimeMillis();
+				        space.simulate();
+				        // System.out.println(lastTick);
+						repaint();
+					}
+				}
+		    }
+		}).start();
+		
 		
 		this.addMouseMotionListener(new MouseMotionListener()
 		{
@@ -39,9 +64,20 @@ public class MainPanel extends JPanel
 			@Override
 			public void mouseMoved(MouseEvent e){ mMove(e); }
 		});
+		
+		this.addKeyListener(new KeyListener()
+		{
+			@Override
+			public void keyPressed(KeyEvent e) { kPress(e); }
+			@Override
+			public void keyReleased(KeyEvent e) { kRelease(e); }
+			@Override
+			public void keyTyped(KeyEvent e) { }
+		});
 	}
 	private void mMove(MouseEvent e)
 	{
+		/*
 		mx = e.getX();
 		my = e.getY();
 		
@@ -51,7 +87,44 @@ public class MainPanel extends JPanel
 		space.simulate();
 		
 		this.repaint();
+		*/
 	}
+	private void kPress(KeyEvent e)
+	{
+		double speed = 5;
+		int key = e.getKeyCode();
+		
+		if(key == 37)
+		{
+			mainCircle.velocity.a = -speed;
+		}
+		else if(key == 39)
+		{
+			mainCircle.velocity.a = speed;
+		}
+		else if(key == 38)
+		{
+			mainCircle.velocity.b = -speed;
+		}
+		else if(key == 40)
+		{
+			mainCircle.velocity.b = speed;
+		}
+	}
+	private void kRelease(KeyEvent e)
+	{
+		int key = e.getKeyCode();
+		
+		if(key == 37 || key == 39)
+		{
+			mainCircle.velocity.a = 0;
+		}
+		else if(key == 38 || key == 40)
+		{
+			mainCircle.velocity.b = 0;
+		}
+	}
+	//private void k
 	
 	@Override
 	public void paint(Graphics g)
