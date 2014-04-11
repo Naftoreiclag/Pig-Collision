@@ -47,7 +47,7 @@ public class Space
 						
 						if(AC_distsq <= circle.radsq)
 						{
-							circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(AC);
+							circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(AC);
 							
 							recheck = true;
 							break;
@@ -63,7 +63,7 @@ public class Space
 						
 						if(DC_distsq <= circle.radsq)
 						{
-							circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 1)).subtractLocal(DC);
+							circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(DC);
 	
 							recheck = true;
 							break;

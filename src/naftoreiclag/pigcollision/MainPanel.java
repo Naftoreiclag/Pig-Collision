@@ -16,9 +16,6 @@ public class MainPanel extends JPanel
 	Space space;
 	Circle mainCircle;
 	
-	int mx;
-	int my;
-	
 	public MainPanel()
 	{
 		this.setSize(500, 500);
@@ -31,10 +28,25 @@ public class MainPanel extends JPanel
 		mainCircle = new Circle(250, 250, 20);
 		space.circles.add(mainCircle);
 		
+		// Box
 		space.lines.add(new Line(50, 50, 200, 50));
 		space.lines.add(new Line(200, 50, 200, 200));
 		space.lines.add(new Line(200, 200, 50, 200));
 		space.lines.add(new Line(50, 200, 50, 50));
+		
+		// Concave test
+		// right-ish angle
+		space.lines.add(new Line(57, 328, 102, 373));
+		space.lines.add(new Line(102, 373, 147, 329));
+		// obtuse
+		space.lines.add(new Line(187, 363, 269, 396));
+		space.lines.add(new Line(269, 396, 333, 358));
+		// acute
+		space.lines.add(new Line(379, 302, 403, 397));
+		space.lines.add(new Line(403, 397, 425, 282));
+		// ???
+		space.lines.add(new Line(91, 413, 254, 443));
+		space.lines.add(new Line(75, 476, 194, 449));
 		
 		(new Thread()
 		{
@@ -77,17 +89,6 @@ public class MainPanel extends JPanel
 	}
 	private void mMove(MouseEvent e)
 	{
-		/*
-		mx = e.getX();
-		my = e.getY();
-		
-		mainCircle.velocity.a = e.getX() - mainCircle.loc.a;
-		mainCircle.velocity.b = e.getY() - mainCircle.loc.b;
-		
-		space.simulate();
-		
-		this.repaint();
-		*/
 	}
 	private void kPress(KeyEvent e)
 	{
@@ -137,7 +138,7 @@ public class MainPanel extends JPanel
 		
 		g2.setColor(Color.RED);
 		
-		g2.drawOval((int) (mx - mainCircle.rad), (int) (my - mainCircle.rad), (int) mainCircle.rad * 2, (int) mainCircle.rad * 2);
+		//g2.drawOval((int) (mx - mainCircle.rad), (int) (my - mainCircle.rad), (int) mainCircle.rad * 2, (int) mainCircle.rad * 2);
 
 		g2.setColor(Color.BLACK);
 		
