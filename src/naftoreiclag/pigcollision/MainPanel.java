@@ -16,6 +16,8 @@ public class MainPanel extends JPanel
 {
 	Space space;
 	Circle mainCircle;
+	Circle mainCircle2;
+	Circle orbitCircle;
 
 	double cirleSpd = 3;
 	boolean mouseDown;
@@ -29,8 +31,14 @@ public class MainPanel extends JPanel
 		
 		space = new Space();
 		
-		mainCircle = new Circle(250, 250, 20);
+		mainCircle = new Circle(250, 250, 20, 5, 5);
 		space.circles.add(mainCircle);
+		mainCircle2 = new Circle(300, 250, 15, 5, 5);
+		space.circles.add(mainCircle2);
+		orbitCircle = new Circle(300, 100, 30, 5, 5);
+		space.circles.add(orbitCircle);
+		
+		space.circles.add(new Circle(300, 350, 20, 5, -1));
 		
 		// Box
 		space.lines.add(new Line(50, 50, 200, 50));
@@ -64,7 +72,7 @@ public class MainPanel extends JPanel
 					if(System.currentTimeMillis() > lastTick + 10d)
 					{
 						lastTick = System.currentTimeMillis();
-				        space.simulate();
+				        space.simulate(1);
 				        // System.out.println(lastTick);
 						repaint();
 					}
