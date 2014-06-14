@@ -129,7 +129,7 @@ public class MainPanel extends JPanel
 			Vector2d go = new Vector2d(mouseX, mouseY);
 			go.subtractLocal(mainCircle.loc);
 			
-			mainCircle.velocity = go.normalizeLocal().multiplyLocal(cirleSpd);
+			mainCircle.motion = go.normalizeLocal().multiplyLocal(cirleSpd);
 		}
 	}
 	private void mPress(MouseEvent e)
@@ -139,7 +139,7 @@ public class MainPanel extends JPanel
 		Vector2d go = new Vector2d(e.getX(), e.getY());
 		go.subtractLocal(mainCircle.loc);
 		
-		mainCircle.velocity = go.normalizeLocal().multiplyLocal(cirleSpd);
+		mainCircle.motion = go.normalizeLocal().multiplyLocal(cirleSpd);
 	
 		this.repaint();
 	}
@@ -147,8 +147,8 @@ public class MainPanel extends JPanel
 	{
 		mouseDown = false;
 		
-		mainCircle.velocity.a = 0.0d;
-		mainCircle.velocity.b = 0.0d;
+		mainCircle.motion.a = 0.0d;
+		mainCircle.motion.b = 0.0d;
 	}
 	private void kPress(KeyEvent e)
 	{
@@ -156,19 +156,19 @@ public class MainPanel extends JPanel
 		
 		if(key == 37)
 		{
-			mainCircle.velocity.a = -cirleSpd;
+			mainCircle.motion.a = -cirleSpd;
 		}
 		else if(key == 39)
 		{
-			mainCircle.velocity.a = cirleSpd;
+			mainCircle.motion.a = cirleSpd;
 		}
 		else if(key == 38)
 		{
-			mainCircle.velocity.b = -cirleSpd;
+			mainCircle.motion.b = -cirleSpd;
 		}
 		else if(key == 40)
 		{
-			mainCircle.velocity.b = cirleSpd;
+			mainCircle.motion.b = cirleSpd;
 		}
 	}
 	private void kRelease(KeyEvent e)
@@ -177,11 +177,11 @@ public class MainPanel extends JPanel
 		
 		if(key == 37 || key == 39)
 		{
-			mainCircle.velocity.a = 0;
+			mainCircle.motion.a = 0;
 		}
 		else if(key == 38 || key == 40)
 		{
-			mainCircle.velocity.b = 0;
+			mainCircle.motion.b = 0;
 		}
 	}
 	//private void k
