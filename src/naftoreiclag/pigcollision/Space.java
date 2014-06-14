@@ -19,8 +19,8 @@ public class Space
 			simulateCircle(circle, delta);
 		}
 	}
-	
-	//
+
+	// I had to use uppercase letters here to avoid (more) confusion
 	public void simulateCircle(Circle circle, long delta)
 	{
 		// Move it
@@ -38,6 +38,8 @@ public class Space
 			// Check relation of this circle to surrounding lines.
 			for(Line line : lines)
 			{
+				// TODO: put checks for horizontal / vertical lines for max efficiency over 9000
+				
 				// Get the lines between important points
 				Vector2d AC = circle.loc.subtract(line.a);
 				Vector2d AB = line.b.subtract(line.a);
@@ -130,16 +132,16 @@ public class Space
 					else
 					{
 						// 
-						double knockback = otherCircle.pushResistance / (circle.pushStrength + otherCircle.pushResistance);
+						double relativeResistance = otherCircle.pushResistance / (circle.pushStrength + otherCircle.pushResistance);
 						
 						// Move it out of the way somehow
-						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq) * knockback).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
 
 						// Since we moved the circle in question, it's possible it moved into an illegal position
 						suspectedDirty = true;
 						
 						// Move other one out of the way somehow
-						otherCircle.velocity = (DC.divide(Math.sqrt(DC_distsq) * -1 * (1 - knockback)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+						otherCircle.velocity.subtractLocal((DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC));
 						
 						// Since we moved the other one, we need to make sure it's new position is not dirty.
 						simulateCircle(otherCircle, delta);
@@ -150,35 +152,6 @@ public class Space
 			}
 		}
 		
-		//circle.velocity.setZero();
-	}
-	
-	// I had to use uppercase letters here to avoid (more) confusion
-	public boolean collides(Vector2d A, Vector2d B, Vector2d C, double rad)
-	{
-		// TODO: put checks for horizontal / vertical lines for max efficiency over 9000
-		
-		// What
-		Vector2d AC = C.subtract(A);
-		Vector2d AB = B.subtract(A);
-
-		// I don't even
-		double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
-		
-		// What is a dot product
-		double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
-		
-		// What is this
-		double magic = AC_dot_AB / AB_distsq;
-
-		if(magic > 1) return false;
-		else if(magic < 0)
-		{
-			double AC_distsq = AC.magnitudeSquared();
-			
-			return AC_distsq <= (rad * rad);
-		}
-		
-		return A.add(AB.multiply(magic)).distanceSquared(C) <= (rad * rad);
+		circle.velocity.setZero();
 	}
 }

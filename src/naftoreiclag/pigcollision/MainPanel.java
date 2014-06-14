@@ -21,6 +21,8 @@ public class MainPanel extends JPanel
 
 	double cirleSpd = 3;
 	boolean mouseDown;
+	int mouseX;
+	int mouseY;
 	
 	public MainPanel()
 	{
@@ -73,6 +75,7 @@ public class MainPanel extends JPanel
 					{
 						lastTick = System.currentTimeMillis();
 				        space.simulate(1);
+				        mMove(null);
 				        // System.out.println(lastTick);
 						repaint();
 					}
@@ -115,9 +118,15 @@ public class MainPanel extends JPanel
 	}
 	private void mMove(MouseEvent e)
 	{
+		if(e != null)
+		{
+			mouseX = e.getX();
+			mouseY = e.getY();
+		}
+		
 		if(mouseDown)
 		{
-			Vector2d go = new Vector2d(e.getX(), e.getY());
+			Vector2d go = new Vector2d(mouseX, mouseY);
 			go.subtractLocal(mainCircle.loc);
 			
 			mainCircle.velocity = go.normalizeLocal().multiplyLocal(cirleSpd);
