@@ -67,7 +67,7 @@ public class Space
 					if(AC_distsq <= circle.radsq)
 					{
 						// Move it out of the way somehow
-						circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(AC);
+						circle.loc.subtractLocal(AC).addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 0.5d));
 						
 						// Since we moved the circle in question, it's possible it moved into an illegal position
 						suspectedDirty = true;
@@ -85,7 +85,7 @@ public class Space
 					if(DC_distsq <= circle.radsq)
 					{
 						// Move it out of the way somehow
-						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(DC);
+						circle.loc.subtractLocal(DC).addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 0.5d));
 
 						// Since we moved the circle in question, it's possible it moved into an illegal position
 						suspectedDirty = true;
@@ -110,7 +110,7 @@ public class Space
 					if(otherCircle.pushResistance == -1)
 					{
 						// Move it out of the way somehow
-						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+						circle.loc.subtractLocal(DC).addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d));
 
 						// Since we moved the circle in question, it's possible it moved into an illegal position
 						suspectedDirty = true;
@@ -118,10 +118,10 @@ public class Space
 					}
 					
 					// If this circle has infinite push strength
-					else if(circle.pushStrength == -1)
+					else if(circle.pushStrength == -1 || otherCircle.pushResistance == 0)
 					{
 						// Move other one out of the way somehow
-						otherCircle.motion = (DC.divide(Math.sqrt(DC_distsq) * -1d).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+						otherCircle.motion.subtractLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).addLocal(DC);
 						
 						// Since we moved the other one, we need to make sure it's new position is not dirty.
 						simulateCircle(otherCircle, delta);
@@ -132,16 +132,24 @@ public class Space
 					else
 					{
 						// 
-						double relativeResistance = otherCircle.pushResistance / (circle.pushStrength + otherCircle.pushResistance);
+						double relativeResistance = circle.pushStrength / otherCircle.pushResistance;
+						
+						if(relativeResistance > 1)
+						{
+							relativeResistance = 1;
+						}
+						relativeResistance = 1;
+						
+						Vector2d impulse = DC.divide(Math.sqrt(DC_distsq));
 						
 						// Move it out of the way somehow
-						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+						circle.loc.addLocal(impulse.multiply(circle.rad + otherCircle.rad + 0.5d).multiplyLocal(relativeResistance)).subtractLocal(DC);
 
 						// Since we moved the circle in question, it's possible it moved into an illegal position
 						suspectedDirty = true;
 						
 						// Move other one out of the way somehow
-						otherCircle.motion.subtractLocal((DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC));
+						otherCircle.motion.subtractLocal(impulse.multiply(circle.rad + otherCircle.rad + 0.5d).multiplyLocal(relativeResistance)).addLocal(DC);
 						
 						// Since we moved the other one, we need to make sure it's new position is not dirty.
 						simulateCircle(otherCircle, delta);

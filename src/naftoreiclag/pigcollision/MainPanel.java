@@ -16,13 +16,16 @@ public class MainPanel extends JPanel
 {
 	Space space;
 	Circle mainCircle;
-	Circle mainCircle2;
-	Circle orbitCircle;
+	Circle smallCircle;
+	Circle bigCircle;
 
-	double cirleSpd = 3;
+	double cirleSpd = 1;
 	boolean mouseDown;
 	int mouseX;
 	int mouseY;
+	
+	double upDownAngle = 0;
+	double upDown;
 	
 	public MainPanel()
 	{
@@ -33,13 +36,19 @@ public class MainPanel extends JPanel
 		
 		space = new Space();
 		
-		mainCircle = new Circle(250, 250, 20, 5, 5);
+		// "player"
+		mainCircle = new Circle(250, 250, 20, 60, 60);
 		space.circles.add(mainCircle);
-		mainCircle2 = new Circle(300, 250, 15, 5, 5);
-		space.circles.add(mainCircle2);
-		orbitCircle = new Circle(300, 100, 30, 5, 5);
-		space.circles.add(orbitCircle);
 		
+		// Small circle
+		smallCircle = new Circle(300, 250, 15, 30, 30);
+		space.circles.add(smallCircle);
+		
+		// Big circle
+		bigCircle = new Circle(300, 100, 30, 120, 120);
+		space.circles.add(bigCircle);
+		
+		// Immobile circle
 		space.circles.add(new Circle(300, 350, 20, 5, -1));
 		
 		// Box
@@ -75,6 +84,12 @@ public class MainPanel extends JPanel
 					{
 						lastTick = System.currentTimeMillis();
 				        space.simulate(1);
+				        
+				        upDownAngle += 0.1;
+				        upDown = Math.cos(upDownAngle);
+				        
+				        //smallCircle.motion = new Vector2d(0, upDown);
+				        
 				        mMove(null);
 				        // System.out.println(lastTick);
 						repaint();
