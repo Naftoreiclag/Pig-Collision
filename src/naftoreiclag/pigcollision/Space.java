@@ -38,7 +38,103 @@ public class Space
 			// Check relation of this circle to surrounding lines.
 			for(Line line : lines)
 			{
-				// TODO: put checks for horizontal / vertical lines for max efficiency over 9000
+				// Horizontal optimization
+				if(line.a.b == line.b.b)
+				{
+					// ((A to B is left to right) and (Past point B)) or ((B to A is left to right) and (Past point B))
+					if((line.a.a < line.b.a && circle.loc.a > line.b.a) || (line.b.a < line.a.a && circle.loc.a < line.b.a))
+					{
+						continue;
+					}
+					
+					// ((A to B is left to right) and (Past point A)) or ((B to A is left to right) and (Past point A))
+					else if((line.a.a < line.b.a && circle.loc.a < line.a.a) || (line.b.a < line.a.a && circle.loc.a > line.a.a))
+					{
+						// Get the lines between important points
+						Vector2d AC = circle.loc.subtract(line.a);
+						
+						// Get distance squared of AC
+						double AC_distsq = AC.magnitudeSquared();
+						
+						// If it is less than the square of the radius (circle collides with point A)
+						if(AC_distsq <= circle.radsq)
+						{
+							// Move it out of the way somehow
+							circle.loc.subtractLocal(AC).addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 0.5d));
+							
+							// Since we moved the circle in question, it's possible it moved into an illegal position
+							suspectedDirty = true;
+							break;
+						}
+					}
+					
+					// Within
+					else
+					{
+						// find the distance
+						double DC_dist = circle.loc.b - line.a.b;
+						
+						// Touching
+						if(Math.abs(DC_dist) <= circle.rad)
+						{
+							// Move it out of the way somehow
+							circle.loc.subtractLocalB(DC_dist).addLocalB(Math.signum(DC_dist) * (circle.rad + 0.5d));
+							
+							// Since we moved the circle in question, it's possible it moved into an illegal position
+							suspectedDirty = true;
+							break;
+						}
+					}
+				}
+				
+				// Vertical optimization
+				else if(line.a.b == line.b.b)
+				{
+					// ((A to B is top to bottom) and (Past point B)) or ((B to A is top to bottom) and (Past point B))
+					if((line.a.b < line.b.b && circle.loc.b > line.b.b) || (line.b.b < line.a.b && circle.loc.b < line.b.b))
+					{
+						continue;
+					}
+					
+					// ((A to B is top to bottom) and (Past point A)) or ((B to A is top to bottom) and (Past point A))
+					else if((line.a.b < line.b.b && circle.loc.b < line.a.b) || (line.b.b < line.a.b && circle.loc.b > line.a.b))
+					{
+						// Get the lines between important points
+						Vector2d AC = circle.loc.subtract(line.a);
+						
+						// Get distance squared of AC
+						double AC_distsq = AC.magnitudeSquared();
+						
+						// If it is less than the square of the radius (circle collides with point A)
+						if(AC_distsq <= circle.radsq)
+						{
+							// Move it out of the way somehow
+							circle.loc.subtractLocal(AC).addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 0.5d));
+							
+							// Since we moved the circle in question, it's possible it moved into an illegal position
+							suspectedDirty = true;
+							break;
+						}
+					}
+					
+					// Within
+					else
+					{
+						// find the distance
+						double DC_dist = circle.loc.a - line.a.a;
+						
+						// Touching
+						if(Math.abs(DC_dist) <= circle.rad)
+						{
+							// Move it out of the way somehow
+							circle.loc.subtractLocalA(DC_dist).addLocalA(Math.signum(DC_dist) * (circle.rad + 0.5d));
+							
+							// Since we moved the circle in question, it's possible it moved into an illegal position
+							suspectedDirty = true;
+							break;
+						}
+					}
+				}
 				
 				// Get the lines between important points
 				Vector2d AC = circle.loc.subtract(line.a);
