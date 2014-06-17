@@ -58,20 +58,6 @@ public class Vector2d
 		return this;
 	}
 	
-	public Vector2d addLocalA(double a)
-	{
-		this.a += a;
-		
-		return this;
-	}
-	
-	public Vector2d addLocalB(double a)
-	{
-		this.b += a;
-		
-		return this;
-	}
-	
 	public Vector2d add(double a)
 	{
 		return this.clone().addLocal(a);
@@ -93,20 +79,6 @@ public class Vector2d
 	public Vector2d subtractLocal(double a)
 	{
 		this.a -= a;
-		this.b -= a;
-		
-		return this;
-	}
-	
-	public Vector2d subtractLocalA(double a)
-	{
-		this.a -= a;
-		
-		return this;
-	}
-	
-	public Vector2d subtractLocalB(double a)
-	{
 		this.b -= a;
 		
 		return this;

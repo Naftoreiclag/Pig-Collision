@@ -78,7 +78,7 @@ public class Space
 						if(Math.abs(DC_dist) <= circle.rad)
 						{
 							// Move it out of the way somehow
-							circle.loc.subtractLocalB(DC_dist).addLocalB(Math.signum(DC_dist) * (circle.rad + 0.5d));
+							circle.loc.b += -DC_dist + (Math.signum(DC_dist) * (circle.rad + 0.5d));
 							
 							// Since we moved the circle in question, it's possible it moved into an illegal position
 							suspectedDirty = true;
@@ -127,7 +127,7 @@ public class Space
 						if(Math.abs(DC_dist) <= circle.rad)
 						{
 							// Move it out of the way somehow
-							circle.loc.subtractLocalA(DC_dist).addLocalA(Math.signum(DC_dist) * (circle.rad + 0.5d));
+							circle.loc.a += -DC_dist + (Math.signum(DC_dist) * (circle.rad + 0.5d));
 							
 							// Since we moved the circle in question, it's possible it moved into an illegal position
 							suspectedDirty = true;
@@ -135,6 +135,8 @@ public class Space
 						}
 					}
 				}
+				
+				// Line is not perfectly horizontal or vertical, so we must do this the hard way
 				
 				// Get the lines between important points
 				Vector2d AC = circle.loc.subtract(line.a);
