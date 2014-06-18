@@ -215,8 +215,8 @@ public class Space
 						break;
 					}
 					
-					// If this circle has infinite push strength
-					else if(circle.pushStrength == -1 || otherCircle.pushResistance == 0)
+					// Other circle has no resistance
+					else if(otherCircle.pushResistance == 0)
 					{
 						// Move other one out of the way somehow
 						otherCircle.motion.subtractLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).addLocal(DC);
@@ -230,13 +230,7 @@ public class Space
 					else
 					{
 						// 
-						double relativeResistance = circle.pushStrength / otherCircle.pushResistance;
-						
-						if(relativeResistance > 1)
-						{
-							relativeResistance = 1;
-						}
-						relativeResistance = 1;
+						double relativeResistance = 1;
 						
 						Vector2d impulse = DC.divide(Math.sqrt(DC_distsq));
 						

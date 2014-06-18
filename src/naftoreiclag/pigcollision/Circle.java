@@ -5,7 +5,6 @@ public class Circle
 	public Vector2d loc;
 	public final double rad;
 	public final double radsq;
-	public final double pushStrength;
 	public final double pushResistance;
 	
 	public Vector2d motion = new Vector2d();
@@ -15,7 +14,6 @@ public class Circle
 		this.loc = loc;
 		this.rad = rad;
 		this.radsq = rad * rad;
-		this.pushStrength = strength;
 		this.pushResistance = weight;
 	}
 	
